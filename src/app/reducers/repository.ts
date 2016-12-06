@@ -80,10 +80,10 @@ export const getSelectedId = (state: State) => state.selectedRepoId;
 
 export const getIds = (state: State) => state.ids;
 
-export const getSelected = (state: State) => createSelector(getEntities, getSelectedId, (enteties, selectedId) => {
+export const getSelected = (state: State) => createSelector(getEntities, getSelectedId, (entities, selectedId) => {
   return getEntities[selectedId];
 });
 
-export const getAll = (state: State) => createSelector(getEntities, getIds, (enteties, ids) => {
-  return ids.map(id => enteties[id]);
+export const getAll = (state: State) => createSelector(getEntities, getIds, (entities, ids) => {
+  return ids.map(id => entities[id]);
 });
