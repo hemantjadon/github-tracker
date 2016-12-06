@@ -74,16 +74,16 @@ export function reducer(state: State = initialState, action: repository.Actions 
  * use-case.
  */
 
-export const getEnteties = (state: State) => state.entities;
+export const getEntities = (state: State) => state.entities;
 
 export const getSelectedId = (state: State) => state.selectedRepoId;
 
 export const getIds = (state: State) => state.ids;
 
-export const getSelected = (state: State) => createSelector(getEnteties, getSelectedId, (enteties, selectedId) => {
-  return getEnteties[selectedId];
+export const getSelected = (state: State) => createSelector(getEntities, getSelectedId, (enteties, selectedId) => {
+  return getEntities[selectedId];
 });
 
-export const getAll = (state: State) => createSelector(getEnteties, getIds, (enteties, ids) => {
+export const getAll = (state: State) => createSelector(getEntities, getIds, (enteties, ids) => {
   return ids.map(id => enteties[id]);
 });
