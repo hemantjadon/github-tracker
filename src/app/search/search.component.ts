@@ -3,6 +3,9 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
 
 import * as fromRoot from '../reducers';
 import * as repository from '../actions/repository';
@@ -34,20 +37,19 @@ export class SearchComponent implements OnInit {
 
     this.searchQueryCtrl.valueChanges
                         .debounceTime(300)
-                        .subscribe(searchQuery => this.search(searchQuery));
+                        .distinctUntilChanged()
+                        .switchMap(searchQuery => {
+                          this.store.dispatch(new repository.SearchAction(searchQuery));
+                          return this.searchService.search(searchQuery);
+                        })
+                        .subscribe((resp) => {
+                          this.store.dispatch(new repository.SearchCompleteAction(resp));
+                        }, () => {
+                          // Error Dispatching can be done here
+                        });
   }
 
   ngOnInit() {
 
-  }
-
-  search(query: string) {
-    this.store.dispatch(new repository.SearchAction(query));
-    this.searchService.search(query)
-                      .subscribe((resp) => {
-                        this.store.dispatch(new repository.SearchCompleteAction(resp));
-                      }, (err) => {
-                        // Error dispatching can be done here.
-                      });
   }
 }
