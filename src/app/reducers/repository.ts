@@ -7,7 +7,7 @@ import * as collection from '../actions/collection';
 export interface State {
   ids: string[];
   entities: { [id: string]: Repository };
-  selectedRepoId: string | null
+  selectedRepoId: string | null;
 };
 
 const initialState: State = {
